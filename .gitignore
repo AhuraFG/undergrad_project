@@ -41,8 +41,9 @@ qc_agent/.fetch_cache/
 *~
 
 # --- Large / binary scientific data (not for Git) ---
-# Root data store (SEA-AD, references, etc.)
-/data/
+# data/: version README + small tables; exclude huge bundles (too large for GitHub)
+data/refdata-gex-GRCh38-2020-A/
+data/sea_ad/
 
 # Common large formats anywhere in the repo
 *.h5ad

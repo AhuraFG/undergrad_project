@@ -1,0 +1,57 @@
+metadata:
+  assay: 10x multiome
+  tissue: middle temporal gyrus
+  organism: NCBITaxon:9606
+  n_cells: 3129
+  n_genes: 15737
+data_integrity_warnings:
+- Raw counts ARE accessible (adata.raw.X or a counts layer exists). MUST NOT include
+  any warning about missing or inaccessible raw counts in data_integrity_warnings
+  or anywhere else in the YAML.
+qc_filters:
+- step: min_genes
+  status: already_done
+  rationale: Minimum genes per cell is above 500, indicating cell filtering is likely
+    already performed. Section 2 states minimum genes per cell (1001.0) is above 500.
+  threshold: 1383
+  distribution_basis: p05
+- step: max_genes
+  status: already_done
+  rationale: Maximum genes per cell is within a reasonable range, suggesting no immediate
+    need for further filtering. Section 2 states max genes (4575) is within a reasonable
+    range.
+  threshold: 4575
+  distribution_basis: p99
+- step: max_pct_mito
+  status: pending
+  rationale: The maximum percentage of mitochondrial UMIs exceeds the p99 threshold,
+    requiring assessment and potential filtering. Section 2 states max mito fraction
+    (0.0478) EXCEEDS the p99-based threshold (0.026) — cells above threshold still
+    present.
+  threshold: 0.026
+  distribution_basis: p99
+doublet_detection:
+  method_recommendation: scDblFinder
+  status: pending
+  rationale: scDblFinder is recommended for doublet detection. Section 2 references
+    scDblFinder as a method for doublet detection.
+normalisation:
+  recommendation: log-normalisation
+  status: already_done
+  rationale: The expression matrix appears log-normalised. Section 2 states adata.X
+    appears log-normalised (non-integer values, typical value range).
+feature_selection:
+  hvg: true
+  status: already_done
+  rationale: Highly variable gene annotation is present and active. Section 2 states
+    adata.var['highly_variable'] is present and active.
+embedding_and_integration:
+  methods:
+  - X_scVI
+  - X_umap
+  status: pending
+  rationale: Embeddings are available, but further integration steps may be required.
+    Section 2 lists X_scVI and X_umap as existing embeddings.
+overall_assessment: This dataset appears to have undergone some preprocessing steps.  Further
+  QC, doublet detection, and integration steps are recommended.  The maximum percentage
+  of mitochondrial UMIs exceeds the p99 threshold, requiring careful consideration.

@@ -1,0 +1,173 @@
+metadata:
+  assay: 10x multiome
+  tissue: middle temporal gyrus
+  organism: NCBITaxon:9606
+  n_cells: 3129
+  n_genes: 15737
+data_integrity_warnings:
+- max mito fraction (0.0478) EXCEEDS the p99-based threshold (0.026) — cells above
+  threshold still present
+qc_filters:
+- step: min_genes_per_cell
+  status: already_done
+  rationale: Section 2 states minimum genes per cell (1001.0) is above 500, therefore
+    filtering is already done.
+  threshold: 1383
+  distribution_basis: p05
+- step: max_genes_per_cell
+  status: already_done
+  rationale: Section 2 states maximum genes per cell (4575) is within reasonable bounds,
+    therefore filtering is already done.
+  threshold: 4575
+  distribution_basis: p99
+- step: max_pct_mito
+  status: pending
+  rationale: Section 2 indicates that the maximum mitochondrial fraction (0.0478)
+    exceeds the p99 threshold (0.026), requiring filtering.
+  threshold: 0.026
+  distribution_basis: p99
+doublet_detection:
+  method_recommendation: scDblFinder
+  status: pending
+  rationale: Section 2 recommends scDblFinder for doublet detection.
+normalisation:
+  recommendation: SCTransform
+  status: already_done
+  rationale: Section 2 indicates that the expression matrix appears log-normalised.
+feature_selection:
+  hvg: true
+  status: already_done
+  rationale: Section 2 states that highly variable gene annotation (var) is present
+    and active.
+embedding_and_integration:
+  methods:
+  - X_scVI
+  - X_umap
+  status: pending
+  rationale: Section 2 indicates that embeddings X_scVI and X_umap are available.
+overall_assessment: This dataset appears to have undergone some initial QC and normalization
+  steps. Further doublet detection and embedding/integration are recommended. The
+  maximum mitochondrial fraction exceeds the p99 threshold, requiring a filtering
+  step.
+data_preparation:
+  scenic+:
+    description: 'SCENIC+ is a package for building gene regulatory networks (GRNs)
+      using single-cell gene expression (scRNA-seq) and/or single-cell chromatin accessibility
+      (scATAC-seq) data. The workflow involves downloading raw data, preprocessing
+      the RNA data, constructing gene regulatory networks, and performing perturbation
+      simulations to assess GRN robustness.  The RNA data is first read into a Scanpy
+      AnnData object. Quality control metrics are calculated, including mitochondrial
+      gene fraction and total counts per cell.  Normalization, log transformation,
+      highly variable gene selection, and scaling are performed.  SCENIC+ then uses
+      this data to infer GRNs, often leveraging TF-target interactions from external
+      databases.  Perturbation simulations can be performed to assess the robustness
+      of the inferred GRNs.  The tool requires both gene expression and chromatin
+      accessibility data for full functionality, although RNA-only analyses are possible.
+      Batch effects are modeled during training using batch keys present in the `obs`
+      metadata.
+
+      '
+    required_data_format: 'SCENIC+ requires an RNA AnnData object (.h5ad) with gene
+      expression data in the .X slot. The AnnData object should have gene symbols
+      in the `.var_names` field.  It also requires chromatin accessibility data (e.g.,
+      a peak matrix) and TF motif databases.  The RNA AnnData object must contain
+      QC metrics in the `.obs` metadata, including total counts per cell, genes detected
+      per cell, and mitochondrial gene fraction. Batch keys (Specimen ID, donor_id)
+      must be present in the `.obs` metadata for batch-aware analysis.  The tool also
+      utilizes external databases for TF-target interactions.
+
+      '
+    rna_input_checklist:
+    - requirement: Raw count data accessibility
+      status: done
+      notes: Raw counts are accessible via adata.raw.X.
+    - requirement: Expression matrix format (.X)
+      status: done
+      notes: Expression data is in the .X slot (likely_log_normalised).
+    - requirement: Gene symbols in .var_names
+      status: done
+      notes: adata.var_names contains gene symbols.
+    - requirement: QC metrics in .obs
+      status: done
+      notes: QC metrics (genes_detected_per_cell, total_counts_per_cell, mitochondrial_percent)
+        are present in adata.obs.
+    - requirement: Batch keys in .obs
+      status: done
+      notes: Batch keys (Specimen ID, donor_id) are present in adata.obs.
+    - requirement: Highly variable genes annotation
+      status: done
+      notes: adata.var['highly_variable'] is present and active.
+    other_data_required: 'SCENIC+ requires external TF motif databases (e.g., from
+      CIS-Target) and potentially chromatin accessibility data (e.g., a peak matrix)
+      for full functionality. These are not present in the inspected RNA AnnData.  The
+      specific databases and files needed depend on the GRN inference approach used.
+
+      '
+    preparation_steps: 1. Download the raw scRNA-seq data (e.g., from 10x Genomics).
+      2. Read the raw data into a Scanpy AnnData object. 3. Perform basic preprocessing
+      steps, including QC filtering, normalization, log transformation, highly variable
+      gene selection, and scaling. 4. Load cell type annotations into the `.obs` metadata.
+      5. Construct gene regulatory networks using SCENIC+ functions, specifying appropriate
+      TF motif databases and potentially integrating chromatin accessibility data.
+      6. Perform perturbation simulations to assess GRN robustness.
+    sources:
+    - https://github.com/aertslab/scenicplus/blob/main/docs/human_cerebellum_scRNA_pp.ipynb
+    - https://github.com/aertslab/scenicplus/blob/main/README.md
+  scvi-tools:
+    description: 'scvi-tools is a package for probabilistic modeling and analysis
+      of single-cell omics data, built on top of PyTorch and AnnData. It offers a
+      range of models for dimensionality reduction, data integration, automated annotation,
+      factor analysis, doublet detection, spatial deconvolution, and more. The workflow
+      typically involves initializing a scvi-tools model, providing the AnnData object,
+      specifying batch correction keys (if applicable), and then training the model.  The
+      model learns latent representations and can be used for downstream tasks like
+      clustering, cell type annotation, and differential expression analysis.  Batch
+      effects are modeled during training using the specified batch keys in the `obs`
+      DataFrame, rather than requiring prior correction of the expression matrix.  The
+      package also provides tools for developing novel probabilistic models.
+
+      '
+    required_data_format: 'scvi-tools requires an AnnData object containing single-cell
+      RNA expression data. The expression matrix should be present in `adata.X` (or
+      a layer, or `adata.raw.X`).  The `obs` DataFrame must contain batch correction
+      keys (e.g., ''Specimen ID'', ''donor_id'').  The `var` DataFrame should contain
+      information about genes, including annotations for highly variable genes.  Embeddings
+      (e.g., `X_scVI`, `X_umap`) are beneficial for visualization and downstream analysis.  The
+      AnnData object should be properly structured with appropriate metadata.
+
+      '
+    rna_input_checklist:
+    - requirement: Raw count accessibility
+      status: done
+      notes: Raw counts are accessible via adata.raw.X.
+    - requirement: Expression matrix state
+      status: done
+      notes: adata.X contains likely_log_normalised data.
+    - requirement: Batch keys in obs
+      status: done
+      notes: Batch keys 'Specimen ID' and 'donor_id' are present in obs.
+    - requirement: HVG annotation
+      status: done
+      notes: HVG selection has been performed (adata.var['highly_variable'] is present).
+    - requirement: Cell-type annotations
+      status: done
+      notes: 'Cell-type annotations are present in obs columns: [''cell_type_ontology_term_id'',
+        ''Class'', ''Subclass'', ''Supertype'', ''cell_type''].'
+    - requirement: Embeddings
+      status: done
+      notes: Embeddings 'X_scVI' and 'X_umap' are present in obsm.
+    other_data_required: 'No additional data or databases are required for the core
+      scvi-tools workflow based on the documentation and the current AnnData object.
+
+      '
+    preparation_steps: 1. Ensure the AnnData object is properly structured with expression
+      data in `adata.X` (or a layer, or `adata.raw.X`). 2. Verify the presence of
+      batch correction keys ('Specimen ID', 'donor_id') in the `obs` DataFrame. 3.
+      Initialize a scvi-tools model (e.g., `SCVI`). 4. Pass the AnnData object to
+      the model's `setup_anndata` method, specifying the batch keys. 5. Train the
+      model using the `train` method. 6. Perform downstream analysis, such as clustering
+      or cell type annotation, using the trained model's latent representation.
+    sources:
+    - https://github.com/scverse/scvi-tools/blob/main/README.md
+    - https://github.com/scverse/scvi-tools/blob/main/docs/installation.md
+    - https://github.com/scverse/scvi-tools/blob/main/docs/references.md

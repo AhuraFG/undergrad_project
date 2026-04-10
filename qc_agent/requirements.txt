@@ -1,0 +1,10 @@
+anndata
+numpy
+scipy
+ddgs
+duckduckgo-search
+requests
+beautifulsoup4
+ollama
+pyyaml
+langgraph

@@ -1,0 +1,51 @@
+metadata:
+  assay: 10x multiome
+  tissue: middle temporal gyrus
+  organism: NCBITaxon:9606
+  n_cells: 3129
+  n_genes: 15737
+data_integrity_warnings:
+- adata.X looks log-normalised but no raw counts found — may be unrecoverable. Raw
+  counts are NOT accessible.
+qc_filters:
+- step: min_genes_per_cell
+  status: already_done
+  rationale: Section 2 states minimum genes per cell (1001.0) is above 500, therefore
+    filtering is already done.
+  threshold: 1383
+  distribution_basis: p05
+- step: max_genes_per_cell
+  status: already_done
+  rationale: Section 2 states maximum genes per cell (4575) is within acceptable range,
+    therefore filtering is already done.
+  threshold: 4575
+  distribution_basis: p99
+- step: max_pct_mito
+  status: pending
+  rationale: Section 2 states max mito fraction (0.0478) EXCEEDS the p99-based threshold
+    (0.026), requiring filtering.
+  threshold: 0.026
+  distribution_basis: p99
+doublet_detection:
+  method_recommendation: scDblFinder
+  status: pending
+  rationale: Section 2 recommends scDblFinder for doublet detection.
+normalisation:
+  recommendation: log-normalisation
+  status: already_done
+  rationale: Section 2 states adata.X appears log-normalised.
+feature_selection:
+  hvg: true
+  status: already_done
+  rationale: Section 2 states adata.var['highly_variable'] is present and active.
+embedding_and_integration:
+  methods:
+  - X_scVI
+  - X_umap
+  status: pending
+  rationale: Section 2 lists X_scVI and X_umap as existing embeddings.
+overall_assessment: This dataset appears to have undergone some preprocessing steps
+  already, including normalization and HVG selection.  Raw counts are not accessible,
+  which limits downstream analysis options.  Doublet detection and further QC steps
+  are recommended.  Mitochondrial fraction filtering is needed due to exceeding the
+  p99 threshold.

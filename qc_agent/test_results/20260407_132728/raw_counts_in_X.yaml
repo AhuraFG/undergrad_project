@@ -1,0 +1,52 @@
+metadata:
+  assay: 10x multiome
+  tissue: middle temporal gyrus
+  organism: NCBITaxon:9606
+  n_cells: 3129
+  n_genes: 15737
+data_integrity_warnings:
+- Raw counts ARE accessible. Do NOT claim they are missing.
+qc_filters:
+- step: min_genes_per_cell
+  status: already_done
+  rationale: Section 2 indicates genes_detected_per_cell is present and the minimum
+    value (1001.0) is above 500.
+  threshold: 1383
+  distribution_basis: p05
+- step: max_genes_per_cell
+  status: already_done
+  rationale: Section 2 indicates genes_detected_per_cell is present and the maximum
+    value (4575) is within the 99th percentile.
+  threshold: 4575
+  distribution_basis: p99
+- step: max_pct_mito
+  status: pending
+  rationale: Section 2 indicates max_pct_mito is present and exceeds the p99-based
+    threshold (0.026). Cells above threshold still present.
+  threshold: 0.0478
+  distribution_basis: p99
+doublet_detection:
+  method_recommendation: scDblFinder
+  status: pending
+  rationale: Section 2 indicates doublet detection is likely not already done.
+normalisation:
+  recommendation: scran or sctransform
+  status: pending
+  rationale: Section 2 indicates normalisation is likely not already done and raw
+    counts are present.
+feature_selection:
+  hvg: true
+  status: already_done
+  rationale: Section 2 indicates hvg annotation is present and active.
+embedding_and_integration:
+  methods:
+  - X_scVI
+  - X_umap
+  status: pending
+  rationale: Section 2 indicates embeddings are present, but further integration steps
+    are likely needed.
+overall_assessment: This dataset appears to have undergone some initial QC steps,
+  including gene detection and HVG selection. Further processing, including doublet
+  detection, normalization, and embedding integration, is recommended. The high maximum
+  mitochondrial fraction warrants careful consideration and potential mitigation strategies.
+  The raw counts are accessible and should be used for downstream analysis.

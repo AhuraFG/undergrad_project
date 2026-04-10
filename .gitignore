@@ -1,0 +1,120 @@
+# --- User policy: do not version local / personal dirs ---
+documents/
+.claude/
+**/.claude/
+.cursor/
+**/.cursor/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv_qc_agent/
+.venv_inspect/
+.venv/
+venv/
+env/
+
+# QC agent cache
+qc_agent/.fetch_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editors (keep .vscode if you want shared settings — excluded per request for .cursor only;
+# .idea still ignored)
+.idea/
+*.swp
+*~
+
+# --- Large / binary scientific data (not for Git) ---
+# Root data store (SEA-AD, references, etc.)
+/data/
+
+# Common large formats anywhere in the repo
+*.h5ad
+*.h5mu
+*.h5mu.gz
+*.loom
+*.feather
+*.pkl
+*.pkl.gz
+*.bam
+*.bai
+*.bw
+*.bigWig
+*.bigwig
+*.parquet
+*.zarr
+*.mtx
+
+# Biomart / sqlite caches
+**/.pybiomart.sqlite
+*.sqlite
+*.db
+
+# Large reference downloads
+*.gtf.gz
+*.fa.gz
+*.fasta.gz
+
+# scGLUE saved models / logs (regenerate from notebooks)
+code/03_scglue/glue/
+code/03_scglue/glue.dill
+*.dill
+**/tensorboard/
+
+# pySCENIC outputs (regenerate from notebook)
+code/04_pyscenic/outputs/
+
+# Snakemake / SCENIC+ intermediates (regenerate from workflow; very large)
+code/05_scenicplus/scplus_pipeline/Snakemake/*.tsv
+code/05_scenicplus/scplus_pipeline/Snakemake/*.hdf5
+code/05_scenicplus/scplus_pipeline/Snakemake/*.h5
+code/05_scenicplus/scplus_pipeline/Snakemake/*.loom
+
+# SCENIC+ aggregated results (large CSVs)
+code/05_scenicplus/results/
+
+# Baseline GRN full edge lists (large; keep notebook, regenerate CSVs)
+code/02_baseline_grn/grn_df/
+
+# scGLUE cell–gene graph (hundreds of MB; regenerate from preprocessing)
+code/03_scglue/scglue_model_data/*.graphml
+
+# Notebook with huge embedded outputs (optional: re-run and clear outputs to re-add)
+code/03_scglue/scglue_pp.ipynb
+
+# cisTarget / motif ranking DBs (tens–hundreds of MB; download from pySCENIC/SCENIC+ resources)
+**/motifs-v9*.tbl
+**/motifs-v10*.tbl*
+**/hg38_*screen*.feather
+**/hg38_*clust*.feather
+
+# Pipeline heavy dirs
+code/05_scenicplus/outs/
+code/05_scenicplus/tmp/
+code/05_scenicplus/scplus_pipeline/Snakemake/.snakemake/
+
+# Vendored dependency extras (keep source; drop bulky archives / duplicate notebooks)
+code/dependencies/GLUE/custom/*.tar.gz
+code/dependencies/GLUE/custom/Seurat_4.0.2.tar.gz
+code/dependencies/scenicplus/notebooks/
+
+# Synthetic test inputs for agent (regenerate with generate_test_inputs.py)
+qc_agent/test_inputs/*.h5ad
+
+# Optional: uncomment to exclude generated figures/results (keep if you want CSVs/PNGs in Git)
+# code/05_scenicplus/results/
+# code/05_scenicplus/validation_figures/

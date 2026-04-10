@@ -1,0 +1,22 @@
+# Config for run_all.py: which stages to run (true = run, false = skip).
+# Override with CLI flags, e.g. python run_all.py --skip-lda
+# Path to this file: --config run_config.yaml (default: run_config.yaml in script dir)
+
+stages:
+  create_subsets: true       # Create rna/atac subsets from --full-rna/--full-atac
+  create_cistopic_raw: true # Build cisTopic object from atac_subset
+  prep: true                 # RNA preparation (HVG, microglia subset)
+  verify: true               # RNA verification
+  lda: true                  # cisTopic LDA + region sets
+  snakemake: true            # Snakemake SCENIC+
+  filter: true               # Regulon credibility / filter
+  pipeline_plots: true       # Pipeline plots (eRegulon heatmap, etc.)
+  embedding: true            # Embedding, UMAP, Leiden, validation figures
+  progression: true          # Regulon vs ADNC progression
+  enrichment: false          # Pathway enrichment (Enrichr) — disabled
+
+# Optional: default options (CLI overrides these)
+# options:
+#   cores: 4
+#   use_scvi: false
+#   sweep_leiden: false

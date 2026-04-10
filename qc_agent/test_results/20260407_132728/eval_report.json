@@ -1,0 +1,204 @@
+{
+  "timestamp": "2026-04-07T13:36:29.287527",
+  "fast_eval": null,
+  "full_eval": {
+    "base": {
+      "passed": 5,
+      "total": 5,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "normalisation.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "feature_selection.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "qc_filters.min_genes.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "data_integrity_warnings[raw]",
+          "pass": true,
+          "expected": "False",
+          "got": "False"
+        },
+        {
+          "field": "data_integrity_warnings[scaled]",
+          "pass": true,
+          "expected": "False",
+          "got": "False"
+        }
+      ],
+      "hallucinations": 0,
+      "hallucination_details": [],
+      "missing_rationale": [],
+      "agent_validation_warnings": 0,
+      "elapsed_s": 115.5
+    },
+    "raw_counts_in_X": {
+      "passed": 4,
+      "total": 4,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "normalisation.status",
+          "pass": true,
+          "expected": "pending",
+          "got": "pending"
+        },
+        {
+          "field": "feature_selection.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "data_integrity_warnings[raw]",
+          "pass": true,
+          "expected": "False",
+          "got": "False"
+        },
+        {
+          "field": "data_integrity_warnings[scaled]",
+          "pass": true,
+          "expected": "False",
+          "got": "False"
+        }
+      ],
+      "hallucinations": 0,
+      "hallucination_details": [],
+      "missing_rationale": [],
+      "agent_validation_warnings": 0,
+      "elapsed_s": 104.5
+    },
+    "no_hvg": {
+      "passed": 5,
+      "total": 5,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "normalisation.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "feature_selection.status",
+          "pass": true,
+          "expected": "pending",
+          "got": "pending"
+        },
+        {
+          "field": "qc_filters.min_genes.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "data_integrity_warnings[raw]",
+          "pass": true,
+          "expected": "False",
+          "got": "False"
+        },
+        {
+          "field": "data_integrity_warnings[scaled]",
+          "pass": true,
+          "expected": "False",
+          "got": "False"
+        }
+      ],
+      "hallucinations": 0,
+      "hallucination_details": [],
+      "missing_rationale": [],
+      "agent_validation_warnings": 0,
+      "elapsed_s": 105.1
+    },
+    "no_raw_counts": {
+      "passed": 5,
+      "total": 5,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "normalisation.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "feature_selection.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "qc_filters.min_genes.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "data_integrity_warnings[raw]",
+          "pass": true,
+          "expected": "True",
+          "got": "True"
+        },
+        {
+          "field": "data_integrity_warnings[scaled]",
+          "pass": true,
+          "expected": "False",
+          "got": "False"
+        }
+      ],
+      "hallucinations": 0,
+      "hallucination_details": [],
+      "missing_rationale": [],
+      "agent_validation_warnings": 0,
+      "elapsed_s": 105.5
+    },
+    "scaled_x": {
+      "passed": 4,
+      "total": 4,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "normalisation.status",
+          "pass": true,
+          "expected": "pending",
+          "got": "pending"
+        },
+        {
+          "field": "feature_selection.status",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "data_integrity_warnings[raw]",
+          "pass": true,
+          "expected": "True",
+          "got": "True"
+        },
+        {
+          "field": "data_integrity_warnings[scaled]",
+          "pass": true,
+          "expected": "True",
+          "got": "True"
+        }
+      ],
+      "hallucinations": 0,
+      "hallucination_details": [],
+      "missing_rationale": [],
+      "agent_validation_warnings": 0,
+      "elapsed_s": 106.8
+    }
+  }
+}

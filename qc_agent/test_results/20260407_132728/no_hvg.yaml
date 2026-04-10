@@ -1,0 +1,51 @@
+metadata:
+  assay: 10x multiome
+  tissue: middle temporal gyrus
+  organism: NCBITaxon:9606
+  n_cells: 3129
+  n_genes: 15737
+data_integrity_warnings:
+- Raw counts ARE accessible (adata.raw.X or a counts layer exists). Do NOT include
+  any warning about missing or inaccessible raw counts in data_integrity_warnings
+  or anywhere else in the YAML.
+qc_filters:
+- step: min_genes_per_cell
+  status: already_done
+  rationale: Section 2 states minimum genes per cell (1001.0) is above 500, therefore
+    filtering is already done.
+  threshold: 1383
+  distribution_basis: p05
+- step: max_genes_per_cell
+  status: already_done
+  rationale: Section 2 states maximum genes per cell (4575) is within acceptable range,
+    therefore filtering is already done.
+  threshold: 4575
+  distribution_basis: p99
+- step: max_pct_mito
+  status: pending
+  rationale: Section 2 indicates max mito fraction (0.0478) exceeds the p99-based
+    threshold (0.026), requiring filtering.
+  threshold: 0.026
+  distribution_basis: p99
+doublet_detection:
+  method_recommendation: scDblFinder
+  status: pending
+  rationale: Section 2 recommends scDblFinder for doublet detection.
+normalisation:
+  recommendation: log_normalisation
+  status: already_done
+  rationale: Section 2 states the expression matrix appears log-normalised.
+feature_selection:
+  hvg: false
+  status: pending
+  rationale: Section 2 indicates highly variable gene selection has not been performed.
+embedding_and_integration:
+  methods:
+  - X_scVI
+  - X_umap
+  status: pending
+  rationale: Section 2 lists X_scVI and X_umap as existing embeddings.
+overall_assessment: This dataset appears to have undergone some preprocessing steps,
+  including normalization.  Further QC filtering based on mitochondrial fraction and
+  doublet detection are recommended. Highly variable gene selection and clustering
+  are also needed.  The data integrity warnings should be reviewed.

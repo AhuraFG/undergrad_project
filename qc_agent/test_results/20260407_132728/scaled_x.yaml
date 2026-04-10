@@ -1,0 +1,53 @@
+metadata:
+  assay: 10x multiome
+  tissue: middle temporal gyrus
+  organism: NCBITaxon:9606
+  n_cells: 3129
+  n_genes: 15737
+data_integrity_warnings:
+- adata.X appears scaled/z-scored and raw counts not accessible. Consider storing
+  raw counts in adata.layers['counts'] or adata.raw.
+qc_filters:
+- step: min_genes
+  status: already_done
+  rationale: Section 2 states minimum genes per cell (1001.0) is above 500, therefore
+    filtering is already done.
+  threshold: 1383
+  distribution_basis: p05
+- step: max_genes
+  status: already_done
+  rationale: Section 2 states maximum genes per cell (4575) is within the 99th percentile,
+    therefore filtering is already done.
+  threshold: 4575
+  distribution_basis: p99
+- step: max_pct_mito
+  status: pending
+  rationale: Section 2 states the max mito fraction (0.0478) exceeds the p99-based
+    threshold (0.026), requiring filtering.
+  threshold: 0.026
+  distribution_basis: p99
+doublet_detection:
+  method_recommendation: scDblFinder
+  status: pending
+  rationale: Section 2 recommends scDblFinder for doublet detection.
+normalisation:
+  recommendation: SCTransform
+  status: pending
+  rationale: Section 2 suggests SCTransform for normalization, as it is designed for
+    single-cell RNA sequencing data.
+feature_selection:
+  hvg: true
+  status: already_done
+  rationale: Section 2 indicates that highly variable gene annotation (var) is present
+    and active.
+embedding_and_integration:
+  methods:
+  - X_scVI
+  - X_umap
+  status: pending
+  rationale: Section 2 lists X_scVI and X_umap as available embeddings.
+overall_assessment: This dataset appears to have undergone some preprocessing steps,
+  including scaling/z-scoring of the expression matrix. Raw counts are not accessible,
+  which may limit downstream analysis options. Further QC steps, doublet detection,
+  normalization, and feature selection are recommended to ensure data quality and
+  prepare the data for downstream analysis.

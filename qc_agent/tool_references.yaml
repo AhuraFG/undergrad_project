@@ -1,0 +1,98 @@
+# Local reference file for downstream tool input requirements.
+# Used as fallback when web search is unavailable.
+# Edit this file to add/update tool requirements — no Python changes needed.
+
+scenic+:
+  summary: >
+    SCENIC+ is a gene regulatory network (GRN) inference tool for single-cell multiome
+    (paired scRNA-seq + scATAC-seq) data. It identifies enhancer-driven regulons by
+    linking transcription factors to target genes via cis-regulatory regions.
+  input_requirements:
+    - "scRNA-seq AnnData with RAW INTEGER COUNTS (not log-normalised) in adata.X or accessible via adata.raw.X / adata.layers['counts']"
+    - "A SEPARATE scATAC-seq AnnData with a peak-by-cell count matrix"
+    - "Fragment files (.tsv.gz) for the ATAC modality"
+    - "Cell barcodes must match between RNA and ATAC AnnData objects (multiome pairing)"
+    - "Cell type annotations in adata.obs (e.g. from Leiden clustering + manual annotation)"
+    - "A cisTopic object must be created from the ATAC data for topic modelling of regulatory regions"
+    - "Motif annotation databases (e.g. JASPAR or custom motif collection)"
+    - "Genome annotation (e.g. hg38) for linking peaks to genes"
+  data_format_notes: >
+    If adata.X is log-normalised, raw counts must be retrieved from adata.raw.X or a
+    counts layer. SCENIC+ will NOT work correctly with normalised data as input counts.
+    The RNA and ATAC modalities are processed separately before being combined in the
+    SCENIC+ workflow. This is a multiome-specific tool — it cannot run on RNA-only data.
+  typical_preparation:
+    - "1. Extract raw counts: if adata.X is log-normalised, create a new AnnData with adata.raw.X as .X"
+    - "2. Ensure cell type annotations exist in adata.obs (run clustering if needed)"
+    - "3. Prepare ATAC AnnData separately with peak counts and fragment files"
+    - "4. Run cisTopic on the ATAC data to generate topic models"
+    - "5. Download/prepare motif databases (e.g. JASPAR vertebrate motifs)"
+    - "6. Ensure cell barcodes match between RNA and ATAC objects"
+
+scvi-tools:
+  summary: >
+    scvi-tools (single-cell variational inference tools) provides probabilistic models
+    for single-cell omics data analysis, including scVI for dimensionality reduction
+    and batch correction, scANVI for semi-supervised annotation, and totalVI for
+    CITE-seq data.
+  input_requirements:
+    - "RAW INTEGER COUNTS — either in adata.X directly, or in a named layer (e.g. adata.layers['counts'])"
+    - "If raw counts are in a layer, specify it via scvi.model.SCVI.setup_anndata(adata, layer='counts')"
+    - "Highly variable genes (HVG) selection recommended but not strictly required"
+    - "Optional: batch_key in adata.obs for batch correction (e.g. 'donor_id', 'sample')"
+    - "Optional: categorical_covariate_keys and continuous_covariate_keys in adata.obs"
+    - "adata must NOT be scaled/z-scored — scVI models raw count distributions internally"
+  data_format_notes: >
+    scVI models the count distribution directly, so it MUST receive raw integer counts.
+    Log-normalised data in adata.X will produce incorrect results. If adata.X is
+    log-normalised, either: (a) swap adata.X with raw counts from adata.raw.X, or
+    (b) store raw counts in a layer and pass layer='counts' to setup_anndata().
+    A neighbor graph is NOT required as input — scVI produces its own latent space.
+  typical_preparation:
+    - "1. Provide raw counts: either set adata.X = adata.raw[adata.obs_names, adata.var_names].X, or use setup_anndata(layer='counts')"
+    - "2. Select highly variable genes if not already done (scanpy.pp.highly_variable_genes)"
+    - "3. Identify batch key column in adata.obs if batch correction is desired"
+    - "4. Call scvi.model.SCVI.setup_anndata(adata, layer='counts', batch_key='your_batch_col')"
+    - "5. Do NOT scale or z-score the data"
+
+scglue:
+  summary: >
+    scGLUE (Graph-Linked Unified Embedding) integrates unpaired multi-omics data
+    (e.g. scRNA-seq + scATAC-seq) using a graph-based variational autoencoder that
+    links features across omics via a genomic knowledge graph.
+  input_requirements:
+    - "scRNA-seq AnnData with HVG-filtered expression data (can be log-normalised or raw)"
+    - "scATAC-seq AnnData with peak-by-cell matrix and HVG/highly variable peaks selected"
+    - "Gene coordinates in RNA adata.var: 'chrom', 'chromStart', 'chromEnd' columns"
+    - "Peak coordinates in ATAC adata.var: parsed from peak names or explicit coordinate columns"
+    - "A genomic guidance graph linking genes to peaks (built via scglue.genomics.rna_anchored_guidance_graph)"
+    - "Both AnnData objects should be independently preprocessed (normalised, HVG selected)"
+  data_format_notes: >
+    scGLUE uses the guidance graph to align features across omics. Gene-to-peak links
+    are based on genomic proximity (default: peaks within 150kb of gene body).
+    The RNA and ATAC data do NOT need to come from the same cells (unpaired integration).
+  typical_preparation:
+    - "1. Preprocess RNA: normalise, log-transform, select HVGs"
+    - "2. Preprocess ATAC: TF-IDF or binary, select highly variable peaks"
+    - "3. Add genomic coordinates to RNA adata.var (chrom, chromStart, chromEnd)"
+    - "4. Build guidance graph: scglue.genomics.rna_anchored_guidance_graph(rna, atac)"
+    - "5. Configure and train the GLUE model"
+
+cellrank:
+  summary: >
+    CellRank analyses cellular fate decisions using RNA velocity or other transition
+    matrices, identifying initial/terminal states and computing fate probabilities.
+  input_requirements:
+    - "RNA velocity layer (e.g. from scVelo or velocyto): adata.layers['spliced'] and adata.layers['unspliced']"
+    - "OR a pre-computed transition matrix / cell-fate kernel"
+    - "Pre-computed neighbor graph (adata.obsp['connectivities'])"
+    - "Embedding for visualization (e.g. UMAP in adata.obsm['X_umap'])"
+    - "Cell type / cluster annotations in adata.obs"
+  data_format_notes: >
+    CellRank can work without RNA velocity if given an alternative kernel (e.g.
+    CytoTRACEKernel, RealTimeKernel). The neighbor graph is essential.
+  typical_preparation:
+    - "1. Compute RNA velocity with scVelo if not present"
+    - "2. Ensure neighbor graph exists (sc.pp.neighbors)"
+    - "3. Compute UMAP if not present"
+    - "4. Annotate cell types in adata.obs"

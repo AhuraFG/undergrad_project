@@ -1,0 +1,36 @@
+# QC Agent Configuration
+# All tuneable parameters live here — the script has no hardcoded paths or URLs.
+# Override with: python qc_agent.py --config /path/to/this.yaml
+
+model:
+  generation: "gemma3:12b"   # generate_qc, generate_tool_prep, repair
+  tool_use: "qwen3:14b"      # fetch_docs — tool calling / structured output
+  num_ctx: 49152
+  temperature: 0.0
+
+paths:
+  h5ad: "/Users/ahura/Documents/3rd_year_project/code/05_scenicplus/data_inputs/SEAAD_MTG_microglia_rna.h5ad"
+  output_yaml: "/Users/ahura/Documents/3rd_year_project/code/05_scenicplus/data_inputs/qc_schema_scenic_rna.yaml"
+  tool_references: "tool_references.yaml"   # relative to script directory
+
+defaults:
+  assay: "scRNA-seq"
+  tissue: "unknown"
+  organism: "Homo sapiens"
+
+target_tools:
+  - name: "scenic+"
+    repo: "aertslab/scenicplus"
+  - name: "scvi-tools"
+    repo: "scverse/scvi-tools"
+
+# Documentation pages fetched verbatim (general QC best-practices).
+# Add or remove URLs freely — the agent fetches each and truncates to max_chars_per_page.
+reference_urls:
+  - "https://www.sc-best-practices.org/preprocessing_visualization/quality_control.html"
+  - "https://bioconductor.org/packages/release/bioc/vignettes/scDblFinder/inst/doc/scDblFinder.html"
+  - "https://docs.scvi-tools.org/en/stable/tutorials/notebooks/api_overview.html"
+
+fetch:
+  max_chars_per_page: 4000
+  max_chars_per_tool_page: 8000

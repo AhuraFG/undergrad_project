@@ -1,0 +1,29 @@
+# Eval config — used by run_eval.py for each test case.
+# target_tools is empty so tool prep is skipped (faster eval of core QC logic).
+# h5ad and output_yaml are overridden per test case via CLI args.
+
+model:
+  generation: "gemma3:12b"
+  tool_use: "gemma3:12b"    # no tool docs fetched in eval, same model is fine
+  num_ctx: 32768
+  temperature: 0.0
+
+paths:
+  h5ad: "PLACEHOLDER"           # overridden per run via --h5ad
+  output_yaml: "PLACEHOLDER"    # overridden per run via --output
+  tool_references: "../tool_references.yaml"
+
+defaults:
+  assay: "scRNA-seq"
+  tissue: "unknown"
+  organism: "Homo sapiens"
+
+target_tools: []   # skip tool prep for faster eval of core QC accuracy
+
+reference_urls:
+  - "https://www.sc-best-practices.org/preprocessing_visualization/quality_control.html"
+  - "https://bioconductor.org/packages/release/bioc/vignettes/scDblFinder/inst/doc/scDblFinder.html"
+
+fetch:
+  max_chars_per_page: 4000
+  max_chars_per_tool_page: 8000

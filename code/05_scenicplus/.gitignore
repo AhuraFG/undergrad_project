@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+*.egg
+
+# Joblib / parallel
+tmp/
+*.memmap
+joblib_memmapping_folder_*/
+
+# Biomart cache
+.pybiomart.sqlite
+
+# Snakemake
+scplus_pipeline/Snakemake/.snakemake/
+
+# Large inputs/outputs (optional: uncomment if you don’t want to track these)
+# *.h5ad
+# *.h5mu
+# *.pkl
+# *.feather
+# *.gtf.gz
+# data_inputs/*.h5ad
+# data_inputs/*.pkl
+# data_inputs/*.feather
+# data_inputs/*.gtf.gz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*~

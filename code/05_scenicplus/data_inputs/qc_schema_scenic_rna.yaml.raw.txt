@@ -1,0 +1,59 @@
+```yaml
+metadata:
+  assay: 10x multiome
+  tissue: middle temporal gyrus
+  organism: NCBITaxon:9606
+  n_cells: 3029
+  n_genes: 15745
+
+data_integrity_warnings:
+  - Raw counts not recoverable: adata.X is log-normalised and adata.raw / count layers are absent.
+
+qc_filters:
+  - step: min_genes
+    status: already_done
+    rationale: Observed minimum gene count per cell is 1001.0, which is above 500.
+    threshold: 1380
+    distribution_basis: inferred from data
+  - step: max_genes
+    status: pending
+    rationale: No explicit threshold recommendation found in Section 2 documentation.
+    threshold: 4538
+    distribution_basis: inferred from data
+  - step: max_pct_mito
+    status: already_done
+    rationale: Observed maximum mitochondrial percent is 0.047769, which is below the suggested threshold of 0.026.
+    threshold: 0.026
+    distribution_basis: inferred from data
+
+doublet_detection:
+  method_recommendation: scDblFinder
+  status: pending
+  rationale: No specific method recommendation found in Section 2 documentation.
+
+normalisation:
+  recommendation: scran or sctransform
+  status: already_done
+  rationale: adata.X appears log-normalised (non-integer values, typical value range).
+
+feature_selection:
+  hvg: True
+  status: already_done
+  rationale: Highly variable column present/active.
+
+embedding_and_integration:
+  methods: X_scVI, X_umap
+  status: completed
+  rationale: Embeddings in obsm: X_scVI, X_umap.
+
+downstream_tools:
+  scvi:
+    requirements: scvi-tools
+    notes: Use for further analysis and integration.
+  scenic_plus:
+    requirements: SCENIC+
+    notes: Use for gene regulatory network analysis.
+
+overall_assessment: |
+  The dataset has undergone initial quality control and preprocessing steps, including filtering based on gene count and mitochondrial content. The data appears to be log-normalised, and highly variable genes have been selected. However, doublet detection and further downstream analysis steps such as clustering and integration are still needed. It is recommended to proceed with scDblFinder for doublet detection and use scran or sctransform for normalisation if not already done. Further analysis can be conducted using scvi-tools for single-cell integration and SCENIC+ for gene regulatory network analysis.
+```

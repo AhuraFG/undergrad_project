@@ -1,0 +1,161 @@
+{
+  "timestamp": "2026-04-07T13:03:58.156236",
+  "fast_eval": {
+    "base": {
+      "passed": 4,
+      "total": 4,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "x_processing_state",
+          "pass": true,
+          "expected": "contains 'log_normalised'",
+          "got": "likely_log_normalised"
+        },
+        {
+          "field": "raw_accessible",
+          "pass": true,
+          "expected": "True",
+          "got": "True"
+        },
+        {
+          "field": "normalisation_flag",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "hvg_flag",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        }
+      ]
+    },
+    "raw_counts_in_X": {
+      "passed": 4,
+      "total": 4,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "x_processing_state",
+          "pass": true,
+          "expected": "contains 'raw'",
+          "got": "likely_raw_counts"
+        },
+        {
+          "field": "raw_accessible",
+          "pass": true,
+          "expected": "True",
+          "got": "True"
+        },
+        {
+          "field": "normalisation_flag",
+          "pass": true,
+          "expected": "pending",
+          "got": "pending"
+        },
+        {
+          "field": "hvg_flag",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        }
+      ]
+    },
+    "no_hvg": {
+      "passed": 4,
+      "total": 4,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "x_processing_state",
+          "pass": true,
+          "expected": "contains 'log_normalised'",
+          "got": "likely_log_normalised"
+        },
+        {
+          "field": "raw_accessible",
+          "pass": true,
+          "expected": "True",
+          "got": "True"
+        },
+        {
+          "field": "normalisation_flag",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "hvg_flag",
+          "pass": true,
+          "expected": "pending",
+          "got": "pending"
+        }
+      ]
+    },
+    "no_raw_counts": {
+      "passed": 4,
+      "total": 4,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "x_processing_state",
+          "pass": true,
+          "expected": "contains 'log_normalised'",
+          "got": "likely_log_normalised"
+        },
+        {
+          "field": "raw_accessible",
+          "pass": true,
+          "expected": "False",
+          "got": "False"
+        },
+        {
+          "field": "normalisation_flag",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        },
+        {
+          "field": "hvg_flag",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        }
+      ]
+    },
+    "scaled_x": {
+      "passed": 4,
+      "total": 4,
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "field": "x_processing_state",
+          "pass": true,
+          "expected": "contains 'scaled'",
+          "got": "likely_scaled_or_z_scored"
+        },
+        {
+          "field": "raw_accessible",
+          "pass": true,
+          "expected": "False",
+          "got": "False"
+        },
+        {
+          "field": "normalisation_flag",
+          "pass": true,
+          "expected": "pending",
+          "got": "pending"
+        },
+        {
+          "field": "hvg_flag",
+          "pass": true,
+          "expected": "already_done",
+          "got": "already_done"
+        }
+      ]
+    }
+  },
+  "full_eval": null
+}

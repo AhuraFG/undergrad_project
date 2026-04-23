@@ -25,7 +25,7 @@ For a deeper **architecture diagram** and per-node behaviour, see [QC_AGENT_PIPE
 
 1. Edit **`qc_agent_config.yaml`** (next to `qc_agent.py`):
 
-   - **`paths.h5ad`**: input AnnData.
+   - **`paths.h5ad`**: input AnnData (project-relative by default).
    - **`paths.output_yaml`**: where to write the QC schema YAML.
    - **`model.*`**: Ollama model names and context size.
    - **`target_tools`**: downstream tools (e.g. `scenic+`, `scvi-tools`) for `data_preparation` sections.
@@ -48,6 +48,11 @@ For a deeper **architecture diagram** and per-node behaviour, see [QC_AGENT_PIPE
    ```
 
 The agent writes **`paths.output_yaml`** and may create **`qc_agent/.fetch_cache/`** for fetched pages (safe to delete; regenerates on next run).
+
+## Runtime notes
+
+- Runtime is model-dependent: larger Ollama models and longer context windows substantially increase wall-clock time.
+- First runs can be slower due to model startup and initial documentation fetching.
 
 ---
 

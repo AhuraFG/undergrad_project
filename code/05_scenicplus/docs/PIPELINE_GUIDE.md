@@ -65,11 +65,13 @@ These run when you execute `run_all.py` without `--skip-pipeline` (and with the 
 
 ### 2.5 cisTopic LDA
 
-- **What:** Run LDA on the cisTopic object (topic grid search optional via `--topic-grid`). Select best model (e.g. by coherence), binarise topics (top regions per topic), export region sets.
+- **What:** Run LDA on the cisTopic object. By default the pipeline tries a topic grid of `5 10 15 20 25 30` (override with `--topic-grid`). This range is tuned for the single-cell-type (microglia-only) setting where topics capture within-lineage regulatory sub-programs rather than cell-type structure. When multiple models are fit, `evaluate_models(...)` is used to compare them, the best model is selected automatically, then topics are binarised and exported as region sets.
 - **Outputs:**
-  - `outs/cistopic_obj.pkl` (fitted cisTopic object)
+  - `outs/cistopic_obj.pkl` (fitted cisTopic object with the selected LDA model)
+  - `outs/lda_topic_grid_metrics.csv` (grid-search metrics when multiple topic counts are tested)
+  - `outs/lda_topic_grid_selection.json` (tested topic counts, selected model index/topic count, metric used)
   - `data_inputs/cistopic_obj.pkl` (copy used by Snakemake)
-  - `data_inputs/region_sets/` — BED/region sets per topic
+  - `data_inputs/region_sets/` — BED/region sets per topic from the selected model
 - **Skip:** `--skip-lda` or `stages.lda: false`.
 
 ### 2.6 Snakemake SCENIC+
@@ -126,11 +128,11 @@ After the SCENIC+ core steps (or if you skip them and use existing Snakemake out
 - **Inputs:**  
   - AnnData with AUCell (e.g. `data_inputs/adata_microglia_embedding_scvi.h5ad` or `adata_micro_scvi_best.h5ad`)  
   - MuData `scplusmdata.h5mu` (for AUCell and regulon names)  
-  - Donor-level metadata including ADNC (and optionally age, sex, cluster fractions).
-- **What:** Donor-level weighted OLS: mean AUCell per regulon ~ ADNC (unadjusted and adjusted for age, sex, cluster fractions). Weights = sqrt(n_cells). BH FDR on adjusted p → **q_adnc**.
+  - Donor-level metadata including ADNC (and optionally age, sex, PMI, RIN, APOE if present — not leiden cluster fractions).
+- **What:** Donor-level **WLS** (`statsmodels.WLS`): mean AUCell per regulon ~ ADNC (unadjusted; adjusted for age, sex, and optional PMI/RIN/APOE when available). Subcluster fractions are **not** covariates (states are downstream of ADNC). Weights = sqrt(n_cells). BH FDR on adjusted p → **q_adnc**.
 - **Outputs:**
   - **`results/regulon_progression_adnc.csv`** — regulon, beta/p (unadj & adj), q_adnc, direction, etc.
-  - **`validation_figures/top_progressing_regulons_adnc.png`** — violins by ADNC; regulons with p_adj < 0.1 (and mean AUCell > 0.02) with unadj/adj stats in subtitle; green/dimgray by q_adnc < 0.1.
+  - **`validation_figures/top_progressing_regulons_adnc.png`** — violins by ADNC for regulons with **q_adnc < 0.05** only; subtitle shows β_unadj, β_adj, and BH FDR **q** (not raw p).
 
 ---
 
@@ -156,7 +158,7 @@ After the SCENIC+ core steps (or if you skip them and use existing Snakemake out
 | **`validation_figures/`** | UMAPs, top_progressing_regulons_adnc.png, donor/cluster figures, **pathway_enrichment/*.png** |
 | **`plots/`** | Pipeline plots: eRegulon heatmap, TF overview, top_tfs*.png |
 | **`scplus_pipeline/Snakemake/`** | **scplusmdata.h5mu**, AUCell h5mu, cistromes, eRegulon TSVs, adjacencies |
-| **`outs/`** | cisTopic objects (cistopic_obj_raw.pkl, cistopic_obj.pkl), region BEDs, QC metrics |
+| **`outs/`** | cisTopic objects (cistopic_obj_raw.pkl, cistopic_obj.pkl), LDA grid metrics/selection summaries, region BEDs, QC metrics |
 | **`data_inputs/`** | Prepared GEX h5ad, cisTopic object copy, region_sets, **adata_microglia_embedding*.h5ad**, **adata_micro_scvi_best.h5ad** |
 
 ---
@@ -174,7 +176,7 @@ rna_subset ──► prep ──► data_inputs/SEAAD_MTG_microglia_rna.h5ad
        ▼
 verify ──► (metrics)
        │
-cistopic_obj_raw ──► LDA ──► outs/cistopic_obj.pkl, data_inputs/region_sets/
+cistopic_obj_raw ──► LDA(grid+selection) ──► outs/cistopic_obj.pkl, outs/lda_topic_grid_metrics.csv, data_inputs/region_sets/
        │
        ▼
 Snakemake (GEX + cisTopic + region_sets + genome + motifs) ──► scplusmdata.h5mu, AUCell, eRegulons

@@ -16,7 +16,7 @@
    - **`Input.tfs_path`**, **`Input.motif_path`**: TF list and motif annotations.
    - **`Output.*`**: directories for loom intermediates and regulon/adjacency outputs.
 
-   Use paths under **`code/04_pyscenic/`** (or your clone’s equivalent). The rankings feather file must exist locally — download the appropriate **cisTarget** resource for your genome build if missing.
+   Config paths are project-relative; run from **`code/04_pyscenic/`** (or adjust paths if running elsewhere). The rankings feather file must exist locally — download the appropriate **cisTarget** resource for your genome build if missing.
 
 3. **Notebook**  
    Open **`pyscenic.ipynb`** in Jupyter / VS Code, set the **RNA `.h5ad` path** (often under `data/sea_ad/` or a processed object), and run cells in order. Outputs go to **`outputs/`** (e.g. regulon adjacencies, AUCell scores, figures).
@@ -41,3 +41,8 @@
 
 - **SCENIC+** (RNA+ATAC, eRegulons): [../05_scenicplus/README.md](../05_scenicplus/README.md)  
 - **Shared TF list / data**: [../../data/README.md](../../data/README.md)
+
+## Runtime and resources (rough)
+
+- GRN and AUCell steps on moderate datasets can take from tens of minutes to multiple hours.
+- Disk usage increases with loom intermediates and exported regulon tables.

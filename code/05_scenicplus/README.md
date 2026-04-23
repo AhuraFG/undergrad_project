@@ -8,6 +8,8 @@
 
 ## How to run
 
+All commands below assume your current directory is **`code/05_scenicplus/`** so relative paths resolve correctly.
+
 ### Full pipeline (recommended entry point)
 
 From **`code/05_scenicplus/`**:
@@ -93,3 +95,9 @@ See **[docs/PIPELINE_GUIDE.md](docs/PIPELINE_GUIDE.md)** for inputs, stage order
 ## Dependencies
 
 Use the project **`requirements.txt`** and a conda env that includes **scanpy**, **scvi-tools**, **pycisTopic**, **snakemake**, **scenicplus** (or install the vendored package from `code/dependencies/scenicplus`). Exact versions depend on your machine; align with **`docs/PIPELINE_GUIDE.md`** and Snakemake README if builds fail.
+
+## Runtime and resources (rough)
+
+- Small subset checks: tens of minutes.
+- Full microglia runs: commonly hours depending on CPU cores, memory, and motif database size.
+- Ensure temporary storage has enough space for Snakemake intermediates.

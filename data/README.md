@@ -16,3 +16,14 @@ Shared **inputs** and **reference** files for the pipelines. The repository [REA
 
 - Processed outputs from pipelines (SCENIC, scGLUE, SCENIC+, …) usually live under the corresponding **`code/*/`** directories (e.g. `code/04_pyscenic/outputs/`).
 - Raw or downloaded inputs are stored here; **large files** are often excluded from Git — use `.gitignore` / Git LFS as appropriate.
+
+## Provenance checklist
+
+When adding or refreshing large inputs, record at least:
+
+- source URL
+- dataset/version name
+- download date
+- file checksum (when available)
+
+Typical sources used in this project include SEA-AD releases and 10x/Cell Ranger reference bundles. Keep a short note in your notebook or stage README whenever data inputs are replaced.

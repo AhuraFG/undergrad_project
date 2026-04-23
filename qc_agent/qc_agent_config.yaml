@@ -9,8 +9,8 @@ model:
   temperature: 0.0
 
 paths:
-  h5ad: "/Users/ahura/Documents/3rd_year_project/code/05_scenicplus/data_inputs/SEAAD_MTG_microglia_rna.h5ad"
-  output_yaml: "/Users/ahura/Documents/3rd_year_project/code/05_scenicplus/data_inputs/qc_schema_scenic_rna.yaml"
+  h5ad: "../code/05_scenicplus/data_inputs/SEAAD_MTG_microglia_rna.h5ad"
+  output_yaml: "../code/05_scenicplus/data_inputs/qc_schema_scenic_rna.yaml"
   tool_references: "tool_references.yaml"   # relative to script directory
 
 defaults:

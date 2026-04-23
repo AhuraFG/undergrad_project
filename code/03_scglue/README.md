@@ -10,7 +10,7 @@
    Install **PyTorch**, **scglue**, **scanpy**, **networkx**, etc. (see the [GLUE documentation](https://scglue.readthedocs.io/) and the vendored `code/dependencies/GLUE` for editable install).
 
 2. **Data**  
-   Preprocessed RNA and ATAC **AnnData** objects and the **guidance graph** should live under **`scglue_model_data/`** (e.g. `rna-pp.h5ad`, `atac-pp.h5ad`, `guidance.graphml`). Paths in notebooks are project-specific — update them to your clone’s root.
+   Preprocessed RNA and ATAC **AnnData** objects and the **guidance graph** should live under **`scglue_model_data/`** (e.g. `rna-pp.h5ad`, `atac-pp.h5ad`, `guidance.graphml`). Keep notebook paths project-relative so the workflow remains portable.
 
 3. **Notebooks**  
    - **`scglue_train.ipynb`** — train the GLUE model, save checkpoints under **`glue/`** (e.g. `fine-tune/`, `pretrain/`).  
@@ -36,3 +36,8 @@
 - **Preprocessing**: [../01_preprocessing/README.md](../01_preprocessing/README.md)  
 - **Vendored package**: `code/dependencies/GLUE/README.md`  
 - **SCENIC+** (downstream): [../05_scenicplus/README.md](../05_scenicplus/README.md)
+
+## Runtime and resources (rough)
+
+- Training generally ranges from tens of minutes (small subsets) to hours (larger inputs).
+- GPU acceleration is recommended when available; CPU-only runs may be significantly slower.

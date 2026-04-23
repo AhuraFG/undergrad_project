@@ -1,14 +1,18 @@
 """Step 3: cisTopic LDA and region set export."""
 from __future__ import annotations
 
+import json
 import os
 import pickle
 import shutil
 import sys
 
 import numpy as np
+import pandas as pd
 
 from .paths import DATA_INPUTS, OUT_DIR
+
+DEFAULT_TOPIC_GRID = [5, 10, 15, 20, 25, 30]
 
 
 def step_lda_and_copy(args):
@@ -26,12 +30,12 @@ def step_lda_and_copy(args):
     with open(raw_path, "rb") as f:
         cistopic_obj = pickle.load(f)
 
-    n_topics_list = getattr(args, "topic_grid", None) or [20]
+    n_topics_list = getattr(args, "topic_grid", None) or DEFAULT_TOPIC_GRID
     if isinstance(n_topics_list, int):
         n_topics_list = [n_topics_list]
     n_topics_list = sorted(set(int(x) for x in n_topics_list))
     if not n_topics_list:
-        n_topics_list = [20]
+        n_topics_list = DEFAULT_TOPIC_GRID.copy()
 
     print("[Step 3] Running cisTopic LDA topic grid:", n_topics_list)
     models = run_cgs_models(
@@ -48,35 +52,70 @@ def step_lda_and_copy(args):
     )
 
     best_idx = 0
+    selection_metric = "first_model"
+    metrics_path = os.path.join(OUT_DIR, "lda_topic_grid_metrics.csv")
     if len(models) > 1:
         print("  Evaluating models to select best...")
-        metrics = None
-        try:
-            out = evaluate_models(cistopic_obj, models, select_model=None, return_metrics=True)
-            if out is not None:
-                metrics = out[0] if isinstance(out, (tuple, list)) and len(out) else out
-        except TypeError:
+        metrics_rows = []
+        for m in models:
+            row = {"n_topics": int(getattr(m, "n_topic", np.nan))}
+            if hasattr(m, "metrics") and hasattr(m.metrics, "columns") and "Metric" in getattr(m.metrics, "index", []):
+                for col in m.metrics.columns:
+                    row[str(col)] = m.metrics.loc["Metric", col]
+            metrics_rows.append(row)
+        metrics = pd.DataFrame(metrics_rows).sort_values("n_topics").reset_index(drop=True)
+        metrics.to_csv(metrics_path, index=False)
+
+        eval_err = None
+        selected_model = None
+        eval_attempts = (
+            lambda: evaluate_models(models, select_model=None, return_model=True, plot=False, plot_metrics=False),
+            lambda: evaluate_models(models, select_model=None, return_model=True, plot=False),
+            lambda: evaluate_models(models, select_model=None),
+        )
+        for fn in eval_attempts:
             try:
-                metrics = evaluate_models(cistopic_obj, models, return_metrics=True)
-            except Exception:
-                metrics = evaluate_models(cistopic_obj, models)
-                metrics = getattr(metrics, "__getitem__", lambda i: None)(0) if isinstance(metrics, (tuple, list)) else metrics
-        except Exception as e:
-            print(f"  evaluate_models failed ({e}); using first model.")
-        if metrics is not None and hasattr(metrics, "columns") and hasattr(metrics, "index") and len(metrics) == len(models):
+                out = fn()
+                if out is not None and hasattr(out, "n_topic"):
+                    selected_model = out
+                    break
+            except Exception as e:
+                eval_err = e
+                continue
+
+        if selected_model is not None:
+            selected_topics = int(getattr(selected_model, "n_topic"))
+            if selected_topics in n_topics_list:
+                best_idx = n_topics_list.index(selected_topics)
+                selection_metric = "evaluate_models_combined"
+        else:
+            if eval_err is not None:
+                print(f"  evaluate_models failed ({eval_err}); falling back to metric ranking.")
             for col, minimize in [("Log-likelihood", False), ("loglikelihood", False), ("Cao_Juan_2009", True), ("Arun_2010", True)]:
                 if col in metrics.columns:
                     s = metrics[col].values
-                    best_idx = int(np.argmin(s) if minimize else np.argmax(s))
-                    break
-            else:
-                best_idx = 0
-            best_idx = min(max(0, best_idx), len(models) - 1)
-            metrics_path = os.path.join(OUT_DIR, "lda_topic_grid_metrics.csv")
-            metrics.to_csv(metrics_path)
-            print(f"  Best model: {n_topics_list[best_idx]} topics (index {best_idx}). Metrics saved to lda_topic_grid_metrics.csv")
+                    ranked_idx = int(np.argmin(s) if minimize else np.argmax(s))
+                    ranked_topic = int(metrics.loc[ranked_idx, "n_topics"])
+                    if ranked_topic in n_topics_list:
+                        best_idx = n_topics_list.index(ranked_topic)
+                        selection_metric = col
+                        break
+        best_idx = min(max(0, best_idx), len(models) - 1)
+        print(f"  Best model: {n_topics_list[best_idx]} topics (index {best_idx}). Metrics saved to lda_topic_grid_metrics.csv")
     best_model = models[best_idx]
     n_selected = n_topics_list[best_idx]
+    selection_summary = {
+        "tested_topic_counts": n_topics_list,
+        "n_models": len(models),
+        "selected_model_index": int(best_idx),
+        "selected_topic_count": int(n_selected),
+        "selection_metric": selection_metric,
+        "metrics_csv": metrics_path if len(models) > 1 else None,
+    }
+    selection_path = os.path.join(OUT_DIR, "lda_topic_grid_selection.json")
+    with open(selection_path, "w", encoding="utf-8") as f:
+        json.dump(selection_summary, f, indent=2)
+    print(f"  Saved topic-grid selection summary to {selection_path}")
 
     cistopic_obj.add_LDA_model(best_model)
     with open(os.path.join(OUT_DIR, "cistopic_obj.pkl"), "wb") as f:

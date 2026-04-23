@@ -15,3 +15,8 @@ This folder holds analysis stages in rough workflow order. The **project overvie
 | **DeepMAPS** | Reserved / placeholder — [DeepMAPS/README.md](DeepMAPS/README.md) |
 
 Shared inputs and references are under **`../data/`** — see [../data/README.md](../data/README.md).
+
+## Notes
+
+- Folders `01_*` to `05_*` contain project-authored analysis workflows.
+- `dependencies/` contains vendored upstream code and is not the primary location of project-specific logic.

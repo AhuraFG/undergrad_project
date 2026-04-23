@@ -18,7 +18,7 @@ Notebooks for **downloading** and **preprocessing** SEA-AD (or similar) **RNA** 
    | **`sea-ad_atac_preprocessing.ipynb`** | ATAC QC and feature matrix → `.h5ad`. |
 
 3. **Paths**  
-   Edit hardcoded paths at the top of each notebook to match your machine (project root, `data/sea_ad/`, etc.).
+   Prefer project-relative paths at the top of each notebook (`data/sea_ad/`, etc.) so notebooks run after cloning without machine-specific edits.
 
 4. **Order**  
    Typically: **get_data** (if needed) → **RNA** and **ATAC** prep → export objects referenced by **`code/03_scglue/`** and **`code/05_scenicplus/`**.
@@ -30,3 +30,8 @@ Notebooks for **downloading** and **preprocessing** SEA-AD (or similar) **RNA** 
 - **Data layout**: [../../data/README.md](../../data/README.md)  
 - **scGLUE**: [../03_scglue/README.md](../03_scglue/README.md)  
 - **SCENIC+**: [../05_scenicplus/README.md](../05_scenicplus/README.md)
+
+## Runtime and resources (rough)
+
+- Raw download and conversion steps are I/O-heavy and can take significant time.
+- RNA/ATAC preprocessing on full datasets can require high memory; subset-first runs are recommended.

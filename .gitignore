@@ -80,15 +80,14 @@ code/03_scglue/glue.dill
 
 # pySCENIC outputs (regenerate from notebook)
 code/04_pyscenic/outputs/
+# pySCENIC run logs (regenerate from notebook)
+code/04_pyscenic/pyscenic_*_stdout.txt
 
 # Snakemake / SCENIC+ intermediates (regenerate from workflow; very large)
 code/05_scenicplus/scplus_pipeline/Snakemake/*.tsv
 code/05_scenicplus/scplus_pipeline/Snakemake/*.hdf5
 code/05_scenicplus/scplus_pipeline/Snakemake/*.h5
 code/05_scenicplus/scplus_pipeline/Snakemake/*.loom
-
-# SCENIC+ aggregated results (large CSVs)
-code/05_scenicplus/results/
 
 # Baseline GRN full edge lists (large; keep notebook, regenerate CSVs)
 code/02_baseline_grn/grn_df/
@@ -118,6 +117,7 @@ code/dependencies/scenicplus/notebooks/
 # Synthetic test inputs for agent (regenerate with generate_test_inputs.py)
 qc_agent/test_inputs/*.h5ad
 
-# Optional: uncomment to exclude generated figures/results (keep if you want CSVs/PNGs in Git)
-# code/05_scenicplus/results/
-# code/05_scenicplus/validation_figures/
+# Curated final figures/tables under code/05_scenicplus/results and
+# code/05_scenicplus/validation_figures are intentionally tracked.
+
+code/05_scenicplus/results/tf_to_gene_adjacency.csv

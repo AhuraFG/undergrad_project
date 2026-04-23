@@ -4,6 +4,36 @@ This repository contains pipelines and tooling for **single-cell RNA/ATAC** work
 
 ---
 
+## Quickstart
+
+From the project root:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+Run the two main entry points:
+
+```bash
+# SCENIC+ end-to-end orchestration
+cd code/05_scenicplus
+python run_all.py
+
+# QC schema generator
+cd ../../qc_agent
+python qc_agent.py
+```
+
+Expected outputs:
+
+- SCENIC+ tables and figures under `code/05_scenicplus/results/` and `code/05_scenicplus/validation_figures/`
+- QC schema YAML at the `paths.output_yaml` location in `qc_agent/qc_agent_config.yaml`
+
+---
+
 ## Repository layout
 
 | Path | Purpose |
@@ -33,13 +63,43 @@ Each component has its own README with setup and run instructions:
 
 ---
 
-## Paths and environments
+## Path portability policy
 
-- Notebooks and configs may use absolute paths from this project root. After cloning elsewhere, **search-and-replace** your base path or use environment variables where you add them.
-- Create a virtual environment from the root `requirements.txt` when running Python tools; the QC agent can use a dedicated venv (see [qc_agent/README.md](qc_agent/README.md)).
+Configs tracked in this repo use project-relative paths where possible. To keep notebooks portable, set a local project root variable at the top of each notebook and build paths from it (for example with `Path.cwd()` / `Path("..")` patterns) instead of hardcoding machine-specific absolute paths.
 
 ---
 
-## Licence and citation
+## Environments and dependencies
 
-Add your institution’s licence and citation requirements here when publishing.
+- **Root env (`requirements.txt`)** is the default for shared scientific tooling and analysis scripts.
+- **Tool-specific extras** may still be needed for pipeline-specific workflows (see each tool README).
+- **QC agent** can run in a separate virtual environment via `qc_agent/requirements.txt` if you want isolation.
+
+Use `python3 --version` and pin a consistent interpreter per machine (Python 3.11+ recommended).
+
+---
+
+## Generated outputs policy
+
+- **Tracked intentionally:** curated figures and summary tables used for interpretation/reporting.
+- **Not tracked:** large intermediates, caches, heavy model artifacts, and re-creatable pipeline scratch outputs (configured in `.gitignore`).
+- If outputs are regenerated, keep only final curated artifacts and avoid committing transient run products.
+
+---
+
+## Contribution boundaries
+
+Project-authored analysis code lives primarily under:
+
+- `code/01_preprocessing/` to `code/05_scenicplus/`
+- `qc_agent/`
+
+Vendored third-party code under `code/dependencies/` is included for reproducibility/convenience and should be treated as upstream software rather than original project implementation.
+
+---
+
+## Runtime expectations (rough)
+
+- Preprocessing and SCENIC+/scGLUE stages can require substantial RAM/CPU and long runtimes (hours on larger inputs).
+- QC agent runtime depends on local Ollama model size and context window.
+- Prefer stage-wise runs first before full end-to-end execution on large data.

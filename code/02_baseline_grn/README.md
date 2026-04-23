@@ -14,6 +14,7 @@ A **baseline gene regulatory network** from single-cell RNA using **GRNBoost2** 
 
    - Path to the **RNA `.h5ad`** (e.g. microglia object under `data/` or `code/05_scenicplus/data_inputs/`).
    - Path to **human TFs** (e.g. `data/human_tfs.csv`).
+   - Use project-relative paths in notebook cells for portability.
 
    Run cells in order. Outputs are written to **`grn_df/`** (edge lists / tables as defined in the notebook).
 
@@ -35,3 +36,7 @@ A **baseline gene regulatory network** from single-cell RNA using **GRNBoost2** 
 
 - **pySCENIC**: [../04_pyscenic/README.md](../04_pyscenic/README.md)  
 - **TF list**: [../../data/README.md](../../data/README.md)
+
+## Runtime and resources (rough)
+
+- Runtime scales with gene/cell counts and can range from minutes (small subsets) to hours (larger matrices).

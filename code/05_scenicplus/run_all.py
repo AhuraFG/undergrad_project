@@ -101,7 +101,7 @@ def _parser():
     g.add_argument("--gene-strategy", choices=["full", "hvg_plus_tf"], default="hvg_plus_tf")
     g.add_argument("--remove-contaminants", action="store_true")
     g.add_argument("--credible-min-pct-cells", type=float, default=5.0, help="Min %% cells expressing TF for credible regulon")
-    g.add_argument("--topic-grid", type=int, nargs="*", default=None, help="LDA topic numbers to try (e.g. 5 10 15 20 25 30)")
+    g.add_argument("--topic-grid", type=int, nargs="*", default=None, help="LDA topic numbers to try (default grid: 5 10 15 20 25 30)")
     g.add_argument("--binarize-ntop", type=int, default=3000, help="Top regions per topic for binarisation")
     g.add_argument("--lda-n-iter", type=int, default=500, help="LDA iterations per model")
 

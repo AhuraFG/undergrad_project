@@ -1,11 +1,11 @@
 Input:
-  ref_tss: "/Users/ahura/Documents/3rd_year_project/code/04_pyscenic/data_inputs/hg38__refseq-r80__10kb_up_and_down_tss.mc9nr.genes_vs_motifs.rankings.feather"
-  tfs_path: "/Users/ahura/Documents/3rd_year_project/code/04_pyscenic/data_inputs/human_tfs.txt"
-  motif_path: "/Users/ahura/Documents/3rd_year_project/code/04_pyscenic/data_inputs/motifs-v9-nr.hgnc-m0.001-o0.0.tbl"
+  ref_tss: "../data_inputs/hg38__refseq-r80__10kb_up_and_down_tss.mc9nr.genes_vs_motifs.rankings.feather"
+  tfs_path: "../data_inputs/human_tfs.txt"
+  motif_path: "../data_inputs/motifs-v9-nr.hgnc-m0.001-o0.0.tbl"
 
 
 Output:
-  loom_path: "/Users/ahura/Documents/3rd_year_project/code/04_pyscenic/data_inputs/"
-  loom_path_output: "/Users/ahura/Documents/3rd_year_project/code/04_pyscenic/outputs/"
-  regulons_path: "/Users/ahura/Documents/3rd_year_project/code/04_pyscenic/outputs/"
-  outpath_adj: "/Users/ahura/Documents/3rd_year_project/code/04_pyscenic/outputs/"
+  loom_path: "../data_inputs/"
+  loom_path_output: "../outputs/"
+  regulons_path: "../outputs/"
+  outpath_adj: "../outputs/"

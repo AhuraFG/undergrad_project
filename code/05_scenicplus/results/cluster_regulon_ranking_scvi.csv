@@ -1,0 +1,8 @@
+cluster,top5_by_mean_AUCell,top5_by_pct_active
+0,ETS1_direct_-/+_(5g);ETV6_direct_+/+_(97g);ZBTB16_direct_+/+_(15g);TBL1XR1_direct_+/-_(802g);MEF2A_direct_+/-_(102g),ETS1_direct_-/+_(5g);CEBPD_direct_+/+_(7g);FOS_direct_+/+_(9g);ATF3_direct_+/+_(12g);ETV6_direct_+/+_(97g)
+1,ETS1_direct_-/+_(5g);ETV6_direct_+/+_(97g);TBL1XR1_direct_+/-_(802g);ZBTB16_direct_+/+_(15g);ETV6_direct_+/-_(1145g),ETV6_direct_+/-_(1145g);TCF12_direct_+/+_(1536g);RB1_direct_+/-_(1684g);ETV6_direct_+/+_(97g);TCF12_direct_+/-_(1905g)
+2,ETS1_direct_-/+_(5g);ETV6_direct_+/+_(97g);TBL1XR1_direct_+/-_(802g);ZBTB16_direct_+/+_(15g);ETV6_direct_+/-_(1145g),CEBPD_direct_+/+_(7g);FOS_direct_+/+_(9g);ATF3_direct_+/+_(12g);ILF3_direct_+/-_(7g);MAF_direct_+/+_(14g)
+3,ETS1_direct_-/+_(5g);ZBTB16_direct_+/+_(15g);TBL1XR1_direct_+/-_(802g);ETV6_direct_+/+_(97g);MEF2C_direct_+/-_(602g),ZBTB20_direct_+/-_(772g);ZBTB20_direct_+/+_(647g);FOXO3_direct_+/+_(1096g);FLI1_direct_+/-_(1452g);FOXO3_direct_+/-_(1443g)
+4,ETS1_direct_-/+_(5g);ZBTB16_direct_+/+_(15g);ETV6_direct_+/+_(97g);TBL1XR1_direct_+/-_(802g);MEF2C_direct_+/-_(602g),ZBTB20_direct_+/-_(772g);ZBTB20_direct_+/+_(647g);FOXO3_direct_+/-_(1443g);MEF2C_direct_+/-_(602g);FOXO3_direct_+/+_(1096g)
+5,TBL1XR1_direct_+/-_(802g);ZBTB16_direct_+/+_(15g);ELF1_direct_+/+_(271g);ETV6_direct_+/+_(97g);ETV6_direct_+/-_(1145g),ZNF207_direct_+/-_(764g);MAF_direct_+/+_(14g);ELF2_direct_+/-_(1795g);ELF1_direct_+/+_(271g);ELF1_direct_+/-_(1705g)
+6,MEF2C_direct_-/+_(32g);ETS1_direct_+/+_(146g);ETS1_direct_+/-_(170g);IKZF3_direct_+/+_(209g);ELF1_direct_+/+_(271g),ETS1_direct_+/-_(170g);IKZF3_direct_+/+_(209g);ETS1_direct_+/+_(146g);MEF2C_direct_-/+_(32g);ZNF207_direct_+/-_(764g)

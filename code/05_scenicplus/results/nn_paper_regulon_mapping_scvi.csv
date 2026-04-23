@@ -1,0 +1,14 @@
+regulon,NN_paper_genes_in_targets,n_overlap
+RB1_direct_+/-_(1684g),CSF1R;CD74,2
+ETS1_direct_+/+_(146g),CST7,1
+ETS1_direct_+/-_(170g),CST7,1
+ETV6_direct_+/+_(97g),CSF1R,1
+MEF2A_direct_+/+_(259g),CSF1R,1
+ETV6_direct_+/-_(1145g),CSF1R,1
+MEF2C_direct_+/+_(567g),CSF1R,1
+TCF12_direct_+/+_(1536g),CSF1R,1
+FLI1_direct_+/-_(1452g),CSF1R,1
+FLI1_direct_+/+_(291g),CSF1R,1
+TCF12_direct_+/-_(1905g),CSF1R,1
+ELF2_direct_+/-_(1795g),CSF1R,1
+ZBTB20_direct_+/+_(647g),CSF1R,1

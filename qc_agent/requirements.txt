@@ -1,10 +1,26 @@
+# QC agent dependencies
+#
+# Install from this directory (or from the project root):
+#   pip install -r qc_agent/requirements.txt
+#
+# A local Ollama install is also required; see README.md for model setup.
+
+# Core scientific stack
 anndata
 numpy
+pandas
 scipy
-ddgs
-duckduckgo-search
+
+# Web / fetching
 requests
 beautifulsoup4
+certifi
+ddgs
+duckduckgo-search
+
+# LLM / agent
 ollama
-pyyaml
 langgraph
+
+# Config
+pyyaml

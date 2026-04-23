@@ -85,6 +85,8 @@ code/04_pyscenic/pyscenic_*_stdout.txt
 
 # Snakemake / SCENIC+ intermediates (regenerate from workflow; very large)
 code/05_scenicplus/scplus_pipeline/Snakemake/*.tsv
+!code/05_scenicplus/scplus_pipeline/Snakemake/chromsizes.tsv
+!code/05_scenicplus/scplus_pipeline/Snakemake/genome_annotation.tsv
 code/05_scenicplus/scplus_pipeline/Snakemake/*.hdf5
 code/05_scenicplus/scplus_pipeline/Snakemake/*.h5
 code/05_scenicplus/scplus_pipeline/Snakemake/*.loom
